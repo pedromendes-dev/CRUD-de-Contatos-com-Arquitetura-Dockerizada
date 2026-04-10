@@ -45,19 +45,16 @@ public class ContactsController : ControllerBase
         if (id != contact.Id)
             return BadRequest();
 
-        _context.Entry(contact).State = EntityState.Modified;
+        var existing = await _context.Contacts.FindAsync(id);
+        if (existing == null)
+            return NotFound();
 
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!_context.Contacts.Any(e => e.Id == id))
-                return NotFound();
-            throw;
-        }
+        existing.Name = contact.Name;
+        existing.Email = contact.Email;
+        existing.Phone = contact.Phone;
+        existing.Address = contact.Address;
 
+        await _context.SaveChangesAsync();
         return NoContent();
     }
 
