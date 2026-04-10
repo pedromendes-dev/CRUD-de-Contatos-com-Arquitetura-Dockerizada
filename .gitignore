@@ -33,6 +33,9 @@ jspm_packages/
 # Windows system files
 Thumbs.db
 
+# Ignore .history folder
+.history/
+
 # Docker files
 **/docker-compose.override.yml
 
