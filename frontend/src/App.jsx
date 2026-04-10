@@ -124,7 +124,7 @@ function Modal({ contact, onClose, onSave }) {
 
 function Avatar({ name }) {
   const initials = name
-    ? name.split(' ').slice(0, 2).map((w) => w[0]).join('').toUpperCase()
+    ? name.split(' ').filter(w => w).slice(0, 2).map((w) => w[0]).join('').toUpperCase()
     : '?';
   return (
     <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-blue-100 text-blue-700 font-semibold text-sm flex-shrink-0">
