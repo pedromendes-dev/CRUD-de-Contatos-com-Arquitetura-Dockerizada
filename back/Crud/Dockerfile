@@ -1,0 +1,20 @@
+# Dockerfile para build do backend .NET
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS builder
+
+WORKDIR /src
+
+COPY ["CrudContatos.csproj", "./"]
+RUN dotnet restore "CrudContatos.csproj"
+
+COPY . .
+RUN dotnet build "CrudContatos.csproj" -c Release -o /app/build
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
+
+WORKDIR /app
+
+COPY --from=builder /app/build .
+
+EXPOSE 8080
+
+ENTRYPOINT ["dotnet", "CrudContatos.dll"]

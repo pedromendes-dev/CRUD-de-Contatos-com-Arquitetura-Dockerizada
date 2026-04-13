@@ -27,6 +27,9 @@ jspm_packages/
 # VS Code settings
 .vscode/
 
+# Visual Studio
+**/.vs/
+
 # Mac system files
 .DS_Store
 
@@ -48,9 +51,23 @@ __pycache__/
 *.sublime-workspace
 *.sublime-project
 
-# Build output
-/dist
-/build
+# Build output (frontend / geral)
+**/dist/
+**/build/
+
+# .NET build artifacts
+**/bin/
+**/obj/
+*.user
+*.suo
+*.sln.docstates
+
+# Arquivos de configuração sensíveis ou locais
+# Descomente a linha abaixo se NÃO quiser versionar configurações de desenvolvimento locais
+# back/Crud/appsettings.Development.json
+
+# Arquivos de requisições HTTP podem ser versionados se forem úteis para o time
+# back/Crud/CrudContatos.http
 
 # Coverage directory
 coverage/
