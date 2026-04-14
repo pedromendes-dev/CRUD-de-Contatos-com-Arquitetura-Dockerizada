@@ -1,0 +1,74 @@
+version: "3.8"
+
+name: Crud_contatos
+
+services:
+  sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: contatos_sql
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "123"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - contatos_network
+
+  backend:
+    build:
+      context: ../back/Crud
+      dockerfile: Dockerfile
+    container_name: contatos_backend
+    env_file:
+      - ../.env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ASPNETCORE_URLS=${ASPNETCORE_URLS}
+      - ConnectionStrings__ContatosDb=${CONNECTIONSTRING_CONTATOSDB}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sql
+    networks:
+      - contatos_network
+
+  frontend:
+    build:
+      context: ../Presetation/Project
+      dockerfile: Dockerfile
+      target: production
+    container_name: contatos_frontend
+    env_file:
+      - ../.env
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - contatos_network
+
+  nginx:
+    image: nginx:alpine
+    container_name: contatos_nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - contatos_network
+
+volumes:
+  sqldata:
+
+networks:
+  contatos_network:
+    driver: bridge
