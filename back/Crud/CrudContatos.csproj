@@ -20,4 +20,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="src\API\Middlewares\" />
+    <Folder Include="src\Application\Services\" />
+  </ItemGroup>
+
 </Project>

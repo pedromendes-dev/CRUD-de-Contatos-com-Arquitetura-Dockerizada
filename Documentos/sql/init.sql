@@ -30,4 +30,13 @@ VALUES
 ('Marcelo Azevedo', '(66) 94433-6666');
 
 
+-- consultar os dados inseridos
 select * from [ContatosDB].[dbo].[contato]
+
+
+-- conferência de dados
+USE ContatosDB;
+SELECT COUNT(*) AS Total FROM Contato;
+SELECT TOP 50 Id, Nome, Telefone, DataCriacao, DataAtualizacao
+FROM Contato
+ORDER BY Id DESC;
