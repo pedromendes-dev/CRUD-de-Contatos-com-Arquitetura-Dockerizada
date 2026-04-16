@@ -15,14 +15,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
+  // Para expor o Swagger em todos os ambientes, deixe assim:
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+    
+    // Caso queira restringir o Swagger apenas para desenvolvimento, basta descomentar abaixo:
+    
+    // if (app.Environment.IsDevelopment())
+    // {
+    //     app.UseSwagger();
+    //     app.UseSwaggerUI();
+    // }
 
-app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

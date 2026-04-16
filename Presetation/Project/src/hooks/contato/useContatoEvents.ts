@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { Contato } from '../../utils/contato/contatoTypes';
 import { ContatoEvent, ContatoEventType } from '../../utils/contato/contatoEvents';
-import { createContato, deleteContato, getContatos, updateContato } from '../../services/axios/contatos';
+import { createContato, deleteContato, getContatos, updateContato } from '../../services/axios/contatosAxios';
 
 export function useContatoEvents() {
   const dispatchContatoEvent = useCallback(async (event: ContatoEvent): Promise<Contato[] | Contato | void> => {

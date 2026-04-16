@@ -3,7 +3,16 @@ import { ptBR } from "@mui/material/locale";
 
 const commonThemeOptions = {
   typography: {
-    fontFamily: "Roboto, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+          fontFamily: "Roboto, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+          h1: { fontWeight: 700, letterSpacing: -1 },
+          h2: { fontWeight: 700, letterSpacing: -0.5 },
+          h3: { fontWeight: 600 },
+          h4: { fontWeight: 600 },
+          h5: { fontWeight: 600 },
+          h6: { fontWeight: 600 },
+          body1: { fontSize: 16, fontWeight: 400 },
+          body2: { fontSize: 15, fontWeight: 400 },
+          button: { fontWeight: 600, textTransform: 'none', fontSize: 15 },
   },
   shape: {
     borderRadius: 8,
@@ -14,13 +23,78 @@ const commonThemeOptions = {
         size: "small" as const,
         variant: "contained" as const,
       },
+          styleOverrides: {
+            root: {
+              textTransform: "none",
+              fontWeight: 600,
+              borderRadius: 999,
+              paddingInline: 20,
+              minHeight: 40,
+              boxShadow: "none",
+              letterSpacing: 0.2,
+              transition: 'background 0.2s, color 0.2s',
+              '&:hover': {
+                boxShadow: "none",
+                filter: 'brightness(0.95)',
+              },
+            },
+          },
     },
     MuiTextField: {
       defaultProps: {
         size: "small" as const,
         fullWidth: true,
       },
-    },
+        },
+        styleOverrides: {
+          root: {
+            borderRadius: 8,
+          },
+        },
+        MuiTooltip: {
+          defaultProps: {
+            enterDelay: 300,
+            leaveDelay: 100,
+          },
+          styleOverrides: {
+            tooltip: {
+              fontSize: 14,
+              borderRadius: 8,
+              padding: '8px 12px',
+            },
+          },
+        },
+        MuiListItem: {
+          styleOverrides: {
+            root: {
+              borderRadius: 8,
+              transition: 'background 0.18s',
+              '&.Mui-selected, &.Mui-selected:hover': {
+                backgroundColor: 'rgba(76, 81, 255, 0.08)',
+              },
+              '&:hover': {
+                backgroundColor: 'rgba(0,0,0,0.04)',
+              },
+            },
+          },
+        },
+        MuiCssBaseline: {
+          styleOverrides: {
+            body: {
+              scrollbarColor: '#bdbdbd #f3f4f6',
+              '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
+                backgroundColor: '#f3f4f6',
+                width: 8,
+                height: 8,
+              },
+              '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
+                borderRadius: 8,
+                backgroundColor: '#bdbdbd',
+                minHeight: 24,
+              },
+            },
+          },
+        },
     MuiTable: {
       defaultProps: {
         size: "small" as const,
@@ -37,6 +111,32 @@ const commonThemeOptions = {
         },
       },
     },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 16,
+          boxShadow: '0 2px 16px 0 rgba(0,0,0,0.06)',
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 999,
+          padding: 8,
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        h3: {
+          fontWeight: 600,
+        },
+        h5: {
+          fontWeight: 600,
+        },
+      },
+    },
   },
 };
 
@@ -49,9 +149,9 @@ export const lightTheme = createTheme(
         paper: "#ffffff",
       },
       primary: {
-        light: "#e3f2fd",
-        main: "#1976d2",
-        dark: "#115293",
+        light: "#4b5563",
+        main: "#111827",
+        dark: "#020617",
         contrastText: "#ffffff",
       },
       secondary: {

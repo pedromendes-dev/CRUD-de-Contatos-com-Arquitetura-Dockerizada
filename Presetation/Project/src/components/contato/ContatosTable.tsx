@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
+import { Box } from '@mui/material';
 import {
   Table,
   TableBody,
@@ -19,11 +20,8 @@ import { Add, Edit, Delete } from '@mui/icons-material';
 import { Contato } from '../../utils/contato/contatoTypes';
 import { useContatoEvents } from '../../hooks/contato/useContatoEvents';
 import { ContatoEventType } from '../../utils/contato/contatoEvents';
+import { ContatosTableProps } from '../../utils/contato/contatoTypes';
 
-interface ContatosTableProps {
-  contatos: Contato[];
-  setContatos: (contatos: Contato[]) => void;
-}
 
 export const ContatosTable: React.FC<ContatosTableProps> = ({ contatos, setContatos }: ContatosTableProps) => {
   const { dispatchContatoEvent } = useContatoEvents();
@@ -32,6 +30,7 @@ export const ContatosTable: React.FC<ContatosTableProps> = ({ contatos, setConta
   const [editing, setEditing] = useState<Contato | null>(null);
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
+  const [saving, setSaving] = useState(false);
 
   const handleOpenCreate = () => {
     setEditing(null);
@@ -54,54 +53,50 @@ export const ContatosTable: React.FC<ContatosTableProps> = ({ contatos, setConta
   const handleSave = async () => {
     if (!nome || !telefone) return;
 
-    if (editing) {
-      await dispatchContatoEvent({
-        type: ContatoEventType.ATUALIZAR,
-        id: editing.id,
-        payload: { nome, telefone },
-      });
+    try {
+      setSaving(true);
 
-      const updated = contatos.map((c: Contato) =>
-        c.id === editing.id ? { ...c, nome, telefone, dataAtualizacao: new Date().toISOString() } : c,
-      );
-      setContatos(updated);
-    } else {
-      const created = (await dispatchContatoEvent({
-        type: ContatoEventType.CRIAR,
-        payload: {
-          nome,
-          telefone,
-          email: undefined,
-        },
-      })) as Contato;
-
-      if (created) {
-        setContatos([...contatos, created]);
+      if (editing) {
+        await dispatchContatoEvent({
+          type: ContatoEventType.ATUALIZAR,
+          id: editing.id,
+          payload: { nome, telefone },
+        });
       } else {
-        const fallback: Contato = {
-          id: Math.max(0, ...contatos.map((c: Contato) => c.id)) + 1,
-          nome,
-          telefone,
-          email: undefined,
-          dataCriacao: new Date().toISOString(),
-          dataAtualizacao: new Date().toISOString(),
-        };
-        setContatos([...contatos, fallback]);
+        await dispatchContatoEvent({
+          type: ContatoEventType.CRIAR,
+          payload: {
+            nome,
+            telefone,
+            email: undefined,
+          },
+        });
       }
-    }
 
-    setOpen(false);
+      const data = (await dispatchContatoEvent({ type: ContatoEventType.LISTAR })) as Contato[];
+      setContatos(data ?? []);
+      setOpen(false);
+    } catch (error) {
+      console.error('Erro ao salvar contato:', error);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleDelete = async (contato: Contato) => {
-    await dispatchContatoEvent({ type: ContatoEventType.REMOVER, id: contato.id });
-    setContatos(contatos.filter((c) => c.id !== contato.id));
+    try {
+      await dispatchContatoEvent({ type: ContatoEventType.REMOVER, id: contato.id });
+      const data = (await dispatchContatoEvent({ type: ContatoEventType.LISTAR })) as Contato[];
+      setContatos(data ?? []);
+    } catch (error) {
+      console.error('Erro ao remover contato:', error);
+    }
   };
 
   return (
-    <>
+    <Box sx={{ backgroundColor: '#f5f7fa', minHeight: '100vh', py: 4, px: { xs: 1, sm: 3, md: 6 } }}>
       <Stack sx={{ mb: 2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2>Contatos</h2>
+        <h2 style={{ fontWeight: 'normal' }}>Contatos</h2>
         <Button variant="contained" startIcon={<Add />} onClick={handleOpenCreate}>
           Adicionar
         </Button>
@@ -111,6 +106,7 @@ export const ContatosTable: React.FC<ContatosTableProps> = ({ contatos, setConta
         <Table size="small">
           <TableHead>
             <TableRow>
+              <TableCell>#</TableCell>
               <TableCell>Nome</TableCell>
               <TableCell>Telefone</TableCell>
               <TableCell>Data Criação</TableCell>
@@ -121,6 +117,7 @@ export const ContatosTable: React.FC<ContatosTableProps> = ({ contatos, setConta
           <TableBody>
             {contatos.map((contato: Contato) => (
               <TableRow key={contato.id} hover>
+                <TableCell>{contato.id}</TableCell>
                 <TableCell>{contato.nome}</TableCell>
                 <TableCell>{contato.telefone}</TableCell>
                 <TableCell>{new Date(contato.dataCriacao).toLocaleString('pt-BR')}</TableCell>
@@ -159,11 +156,11 @@ export const ContatosTable: React.FC<ContatosTableProps> = ({ contatos, setConta
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
-          <Button onClick={handleSave} variant="contained">
+          <Button onClick={handleSave} variant="contained" disabled={saving}>
             Salvar
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Box>
   );
 };

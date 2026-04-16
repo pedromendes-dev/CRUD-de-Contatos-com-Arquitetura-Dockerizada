@@ -6,3 +6,9 @@ export interface Contato {
   dataCriacao: string;
   dataAtualizacao: string;
 }
+
+
+export interface ContatosTableProps {
+  contatos: Contato[];
+  setContatos: (contatos: Contato[]) => void;
+}

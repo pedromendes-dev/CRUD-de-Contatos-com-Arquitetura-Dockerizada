@@ -14,8 +14,6 @@
 │   └── .dockerignore
 ├── nginx/
 │   └── nginx.conf              # Proxy reverso
-└── sql/
-    └── init.sql                # Inicialização do banco
 ```
 
 ## Componentes
@@ -34,13 +32,13 @@
 - **Imagem**: mcr.microsoft.com/mssql/server:2022-latest
 - **Porta**: 1433
 - **Dados**: Persistidos em volume `sqldata`
-- **Inicialização**: Script `init.sql` automático
+- **Inicialização**: Serviço sobe com healthcheck e volume persistente
 
 ### 4. Nginx
 - **Porta externa**: 8081 → 80 (container)
 - **Roteamento**:
   - `/` → Frontend
-  - `/api/` → Backend
+  - `/api/` → Backend (removendo prefixo `/api` no proxy)
 
 ## Como Executar
 
@@ -61,7 +59,8 @@ docker compose up --build -d
 | Serviço    | URL                      |
 |-----------|--------------------------|
 | Frontend  | http://localhost:8081    |
-| API       | http://localhost:8080/api|
+| Frontend (direto) | http://localhost:3000 |
+| API       | http://localhost:8080/Contatos/listartodos |
 | SQL Server| localhost:1433           |
 
 ## Credenciais SQL Server
@@ -76,7 +75,7 @@ Password: P@ssw0rd123!Secure
 **Backend**:
 - `ASPNETCORE_ENVIRONMENT`: Development
 - `ASPNETCORE_URLS`: http://+:8080
-- `ConnectionStrings__ContatosDb`: Configurada automaticamente
+- `ConnectionStrings__DefaultConnection`: Configurada no compose para serviço `sql`
 
 **SQL Server**:
 - `ACCEPT_EULA`: Y
