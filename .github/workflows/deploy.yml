@@ -1,4 +1,4 @@
-name: Deploy CRUD Contatos
+name: Deploy Gerenciamento_Contatos
 
 on:
   push:
@@ -21,12 +21,25 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build e push das imagens
+      # Build e push do backend
+      - name: Build e push backend
         uses: docker/build-push-action@v5
         with:
-          context: ./back/Crud/Infrastructure/docker
-          file: ./back/Crud/Infrastructure/docker/Dockerfile
+          context: ./back/Crud/
+          file: ./Infrastructure/docker/backend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/crud-contatos:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/crud-contatos-backend:latest
+
+      # Build e push do frontend
+      - name: Build e push frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./Presetation/Project/
+          file: ./Presetation/Project/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/crud-contatos-frontend:latest
+
+      # (Opcional) Deploy em Render ou outro serviço pode ser adicionado aqui
+      # Exemplo: curl para API do Render, SSH, etc.
 
  

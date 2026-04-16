@@ -1,4 +1,7 @@
+
 # CRUD de Contatos (Interno)
+
+Este repositório é um 'monorepo' contendo tanto o backend (ASP.NET Core) quanto o frontend (React), além de infraestrutura Docker e scripts auxiliares.
 
 Projeto interno para gerenciamento de contatos, utilizando React no frontend, ASP.NET Core no backend e SQL Server como banco de dados, com orquestração Docker.
 
