@@ -2,7 +2,7 @@ services:
   - type: web
     name: crud-backend
     runtime: docker
-    dockerfilePath: ./back/Crud/Infrastructure/docker/backend/Dockerfile
+    dockerfilePath: ./Dockerfile.backend
     dockerContext: .
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
