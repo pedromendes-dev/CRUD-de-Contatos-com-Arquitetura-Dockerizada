@@ -3,10 +3,10 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS builder
 
 WORKDIR /src
 
-COPY ["CrudContatos.csproj", "./"]
+COPY ["Crud/CrudContatos.csproj", "./"]
 RUN dotnet restore "CrudContatos.csproj"
 
-COPY . .
+COPY Crud . 
 RUN dotnet build "CrudContatos.csproj" -c Release -o /app/build
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
