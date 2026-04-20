@@ -3,7 +3,7 @@ services:
     name: crud-backend
     runtime: docker
     dockerfilePath: ./back/Crud/Infrastructure/docker/backend/Dockerfile
-    dockerContext: ./back/Crud
+    dockerContext: .
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
@@ -27,10 +27,5 @@ services:
     
   - type: web
     name: crud-nginx
-    image: nginx:alpine
-    envVars:
-      - key: BACKEND_HOST
-        value: crud-backend
-      - key: FRONTEND_HOST
-        value: crud-frontend
+    image: pedrom21/crud-nginx:latest
     port: 80
