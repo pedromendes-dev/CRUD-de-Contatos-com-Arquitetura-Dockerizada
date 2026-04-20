@@ -18,7 +18,7 @@ services:
   - type: web
     name: crud-frontend
     runtime: docker
-    dockerfilePath: ./Presetation/Project/Dockerfile
+    dockerfilePath: ./Dockerfile.frontend
     dockerContext: ./Presetation/Project
     envVars:
       - key: VITE_API_URL
