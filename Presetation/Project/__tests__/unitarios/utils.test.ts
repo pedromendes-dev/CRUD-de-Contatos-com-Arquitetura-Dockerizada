@@ -1,10 +1,9 @@
-import { describe, it, expect } from 'vitest';
-
+import { describe, it, expect } from 'vitest';  // framework de teste utilizado, similar ao Jest
+// Teste automtizado com o VItest para uma função utilitária de formatação de telefone
 
 // Função utilitária realista: formata telefone brasileiro
 function formatarTelefone(telefone: string): string {
-  // Remove tudo que não for dígito
-  const limpo = telefone.replace(/\D/g, '');
+  const limpo = telefone.replace(/\D/g, '');  // Remove tudo que não for dígito
   if (limpo.length === 11) {
     // Celular: (99) 99999-9999
     return limpo.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
@@ -12,6 +11,7 @@ function formatarTelefone(telefone: string): string {
     // Fixo: (99) 9999-9999
     return limpo.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
   }
+
   return telefone;
 }
 
@@ -34,3 +34,16 @@ describe('formatarTelefone', () => {
 });
 
 
+
+/*
+
+it:
+É uma função que define um "caso de teste". O primeiro argumento é uma descrição do que o teste faz, e o segundo é uma função que executa o teste.
+
+expect:
+É uma função usada para criar uma "expectativa" (assertiva) sobre o resultado de uma função ou valor. Você compara o resultado real com o esperado usando métodos como .toBe(), .toEqual(), etc.
+
+describe:
+Serve para agrupar vários testes relacionados, criando um "bloco" de testes com uma descrição. Isso ajuda a organizar e deixar os relatórios de teste mais claros.
+
+*/

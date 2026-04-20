@@ -39,7 +39,6 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/crud-contatos-frontend:latest
 
-      # (Opcional) Deploy em Render ou outro serviço pode ser adicionado aqui
-      # Exemplo: curl para API do Render, SSH, etc.
+
 
  
