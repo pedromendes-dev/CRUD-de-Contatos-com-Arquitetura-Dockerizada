@@ -3,7 +3,7 @@ services:
     name: crud-backend
     runtime: docker
     dockerfilePath: ./back/Crud/Infrastructure/docker/backend/Dockerfile
-    dockerContext: ./back
+    dockerContext: ./back/Crud
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
@@ -14,7 +14,6 @@ services:
           name: crud-postgres
           property: connectionString
     port: 8080
-    healthCheckPath: /health
     
   - type: web
     name: crud-frontend
@@ -35,19 +34,3 @@ services:
       - key: FRONTEND_HOST
         value: crud-frontend
     port: 80
-    routes:
-      - path: /api
-        service: crud-backend
-        port: 8080
-      - path: /
-        service: crud-frontend
-        port: 80
-
-  - type: pserv
-    name: crud-postgres
-    ipAddress: 10.1.0.3
-    plan: free
-    region: oregon
-    databaseName: crud_contatos_db
-    user: crud_user
-    postgresMajorVersion: "16"
