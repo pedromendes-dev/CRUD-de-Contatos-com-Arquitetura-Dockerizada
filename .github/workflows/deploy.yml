@@ -1,9 +1,9 @@
-name: Deploy Gerenciamento_Contatos
+name: Deploy Gerenciamento_Contatos (DISABLED - Render handles deployment)
 
 on:
   push:
     branches:
-      - main
+      - disabled-branch
 
 jobs:
   build-and-deploy:
@@ -11,34 +11,3 @@ jobs:
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
-
-      - name: Configurar Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login no DockerHub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      # Build e push do backend
-      - name: Build e push backend
-        uses: docker/build-push-action@v5
-        with:
-          context: ./back/Crud/
-          file: ./Infrastructure/docker/backend/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/crud-contatos-backend:latest
-
-      # Build e push do frontend
-      - name: Build e push frontend
-        uses: docker/build-push-action@v5
-        with:
-          context: ./Presetation/Project/
-          file: ./Presetation/Project/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/crud-contatos-frontend:latest
-
-
-
- 
