@@ -1,6 +1,5 @@
 using CrudContatos.src.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +8,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<Contatos.src.API.Services.ContatoService>();
+
+// Configurar CORS para aceitar requisições do frontend
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 // Use PostgreSQL em produção, SQL Server em desenvolvimento/docker
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -26,26 +36,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     }
 });
 
-
-// Banco qlServer, usando a conecttionString
-
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-
 var app = builder.Build();
-// Para expor o Swagger em todos os ambientes, deixe assim:
+
+// Usar CORS antes dos outros middlewares
+app.UseCors("AllowAll");
+
 app.UseSwagger();
 app.UseSwaggerUI();
-
-
-// Restringir o Swagger apenas para desenvolvimento, basta descomentar abaixo:
-
-// if (app.Environment.IsDevelopment())
-// {
-//     app.UseSwagger()
-//     app.UseSwaggerUI();
-// }
 
 app.UseAuthorization();
 app.MapControllers();
