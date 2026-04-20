@@ -16,7 +16,7 @@ namespace Contatos.src.API.Controllers
         }
 
 
-        [HttpGet("listartodos")]   // Listar todos os contatos
+        [HttpGet("listarTodos")]   // Listar todos os contatos
         public IActionResult GetAll()
         {
             var contatos = _contatoService.GetAll();

@@ -11,16 +11,18 @@ export const HomePage: React.FC = () => {
   const [contatos, setContatos] = useState<Contato[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const data = (await dispatchContatoEvent({ type: ContatoEventType.LISTAR })) as Contato[];
-        setContatos(data ?? []);
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, [dispatchContatoEvent]);
+// No momento não vamos usar essa parte do c´ódigo pois está fazendo uma requisição desnecessária para a API, já que a HomePage não precisa dos contatos para exibir suas informações.
+
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const data = (await dispatchContatoEvent({ type: ContatoEventType.LISTAR })) as Contato[];
+  //       setContatos(data ?? []);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   })();
+  // }, [dispatchContatoEvent]);
 
   return (
     <Box

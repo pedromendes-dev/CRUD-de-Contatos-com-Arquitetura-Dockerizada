@@ -1,5 +1,5 @@
 
-# CRUD de Contatos (Interno)
+# CRUD de Contatos (Aplicação Interna)
 
 Este repositório é um 'monorepo' contendo tanto o backend (ASP.NET Core) quanto o frontend (React), além de infraestrutura Docker e scripts auxiliares.
 
