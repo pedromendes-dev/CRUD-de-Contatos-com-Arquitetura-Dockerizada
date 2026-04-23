@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(); 
-builder.Services.AddEndpointsApiExplorer(); 
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<Contatos.src.API.Services.ContatoService>();
@@ -20,21 +20,21 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Use PostgreSQL em produção, SQL Server em desenvolvimento/docker
+// Configuração do banco de dados SQL Server (padrão atual)
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    var env = builder.Environment;
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    
-    if (env.IsProduction())
-    {
-        options.UseNpgsql(connectionString);
-    }
-    else
-    {
-        options.UseSqlServer(connectionString);
-    }
+    options.UseSqlServer(connectionString);
 });
+
+/*
+//PostgreSQL no futuro para deployment
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseNpgsql(connectionString);
+});
+*/
 
 var app = builder.Build();
 
