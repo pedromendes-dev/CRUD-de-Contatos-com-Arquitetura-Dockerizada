@@ -1,41 +1,100 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Container, Stack, Typography, Paper } from '@mui/material';
+import { Box, Button, Container, Typography, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useContatoEvents } from '../hooks/contato/useContatoEvents';
-import { ContatoEventType } from '../utils/contato/contatoEvents';
-import { Contato } from '../utils/contato/contatoTypes';
+import { getContatosCount } from '../services/axios/contatosAxios';
+
+const contatosCountCacheKey = 'contatos-count-cache';
+const contatosCountCacheTtlMs = 5 * 60 * 1000;
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const { dispatchContatoEvent } = useContatoEvents();
-  const [contatos, setContatos] = useState<Contato[]>([]);
+  const [contatosCount, setContatosCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [showCount, setShowCount] = useState(false);
+  const [countError, setCountError] = useState(false);
 
-// No momento não vamos usar essa parte do c´ódigo pois está fazendo uma requisição desnecessária para a API, já que a HomePage não precisa dos contatos para exibir suas informações.
+  // Busca a quantidade de contatos usando cache curto entre navegacoes
+  useEffect(() => {
+    let hasValidCache = false;
+    const cachedValue = sessionStorage.getItem(contatosCountCacheKey);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const data = (await dispatchContatoEvent({ type: ContatoEventType.LISTAR })) as Contato[];
-  //       setContatos(data ?? []);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   })();
-  // }, [dispatchContatoEvent]);
+    if (cachedValue) {
+      try {
+        const parsedCache = JSON.parse(cachedValue) as { total: number; timestamp: number };
+        const isCacheValid = Date.now() - parsedCache.timestamp < contatosCountCacheTtlMs;
+
+        if (isCacheValid) {
+          hasValidCache = true;
+          setContatosCount(parsedCache.total);
+          setCountError(false);
+          setLoading(false);
+        }
+      } catch {
+        sessionStorage.removeItem(contatosCountCacheKey);
+      }
+    }
+
+    (async () => {
+      try {
+        const response = await getContatosCount();
+        const total = response.data.total ?? 0;
+
+        setContatosCount(total);
+        setCountError(false);
+        sessionStorage.setItem(
+          contatosCountCacheKey,
+          JSON.stringify({ total, timestamp: Date.now() }),
+        );
+      } catch (error) {
+        console.error('Erro ao carregar quantidade de contatos:', error);
+        if (!hasValidCache) {
+          setCountError(true);
+        }
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (!loading) {
+      const timer = setTimeout(() => setShowCount(true), 1500); // 1.5s de delay
+      return () => clearTimeout(timer);
+    } else {
+      setShowCount(false);
+    }
+  }, [loading]);
 
   return (
     <Box
       sx={{
         minHeight: '100vh',
-        background: 'radial-gradient(circle at top left, #e3f2fd, #f5f7fa 45%, #ffffff 80%)',
+        width: '100vw',
+        backgroundImage: `url(/img_1.jpg)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         px: 2,
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <Container maxWidth="md">
+      {/* Overlay branco translúcido */}
+      <Box
+        sx={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          background: 'rgba(255,255,255,0.7)',
+          zIndex: 1,
+          pointerEvents: 'none',
+        }}
+      />
+      <Container maxWidth="md" sx={{ position: 'relative', zIndex: 2 }}>
         <Paper
           elevation={3}
           sx={{
@@ -65,14 +124,11 @@ export const HomePage: React.FC = () => {
           >
             Organize, atualize e gerencie seus contatos de forma simples, rápida
             e visual, com uma experiência pensada em usabilidade e produtividade.
-          </Typography>
-
-          <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={2}
-            justifyContent="center"
-            alignItems="center"
-            sx={{ mb: 3 }}
+     </Typography>
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{ fontWeight: 'bold', color: '#333', mb: 2, display: 'flex', justifyContent: 'center', textAlign: 'center' }}
           >
             <Button
               variant="contained"
@@ -82,10 +138,14 @@ export const HomePage: React.FC = () => {
             >
               Ver lista de contatos
             </Button>
-          </Stack>
+          </Typography>
 
           <Typography variant="caption" sx={{ color: '#9ca3af', fontSize: 13 }}>
-            {loading ? 'Carregando quantidade de contatos...' : `Total de contatos cadastrados: ${contatos.length}`}
+            {countError
+              ? 'Nao foi possivel carregar a quantidade de contatos agora.'
+              : (!showCount || loading)
+              ? 'Carregando quantidade de contatos...'
+              : `Total de contatos cadastrados: ${contatosCount}`}
           </Typography>
         </Paper>
       </Container>

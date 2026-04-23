@@ -1,27 +1,27 @@
 import axios from 'axios';
-import { Contato } from '../../utils/contato/contatoTypes';
+import { Contato, CreateContatoPayload, UpdateContatoPayload } from '../../utils/contato/contatoTypes';
 
-// Compatibilidade para ambientes onde Omit não é reconhecido
-type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
-
-// Usa variável de ambiente quando definida; caso contrário usa mesma origem
-// (funciona com proxy no Vite e com deploy atrás de gateway/nginx).
-export const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+// Usa variável de ambiente quando definida; caso contrário usa o proxy local.
+// Assim o frontend funciona tanto no Vite quanto nos containers Docker.
+export const API_URL = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
 
 
 // Endpoints alinhados com o ContatosController do backend
 
-// Listar todos os contatos
+// Listar todos os contatos -  GET /Contatos/listartodos
 export const getContatos = () => axios.get(`${API_URL}/Contatos/listartodos`);
 
-// Criar sem ID, dataCriacao ou dataAtualizacao, que são gerados pelo backend
-export const createContato = (data: Omit<Contato, 'id' | 'dataCriacao' | 'dataAtualizacao'>) =>
+// Obter apenas a quantidade total de contatos - GET /Contatos/quantidade
+export const getContatosCount = () => axios.get<{ total: number }>(`${API_URL}/Contatos/quantidade`);
+
+// Criar sem ID, dataCriacao ou dataAtualizacao, que são gerados pelo backend  - POST /Contatos/criarNovo
+export const createContato = (data: CreateContatoPayload) =>
 	axios.post<Contato>(`${API_URL}/Contatos/criarNovo`, data);
 
-// Atualizar por ID usando query param para evitar conflitos com outros endpoints RESTful
-export const updateContato = (id: number, data: Partial<Omit<Contato, 'id' | 'dataCriacao' | 'dataAtualizacao'>>) =>
+// Atualizar por ID usando query param para evitar conflitos com outros endpoints RESTful - PUT /Contatos/atualizarId
+export const updateContato = (id: number, data: UpdateContatoPayload) =>
 	axios.put<Contato>(`${API_URL}/Contatos/atualizarId`, data, { params: { id } });
 
-// Deletar por ID usando query param para evitar conflitos com outros endpoints RESTful
+// Deletar por ID usando query param para evitar conflitos com outros endpoints RESTful - DELETE /Contatos/deletarId
 export const deleteContato = (id: number) =>
 	axios.delete(`${API_URL}/Contatos/deletarId`, { params: { id } });
