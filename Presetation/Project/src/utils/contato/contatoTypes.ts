@@ -7,8 +7,16 @@ export interface Contato {
   dataAtualizacao: string;
 }
 
+export type CreateContatoPayload = {
+  nome: string;
+  telefone: string;
+  email?: string;
+};
+
+export type UpdateContatoPayload = Partial<CreateContatoPayload>;
+
 
 export interface ContatosTableProps {
   contatos: Contato[];
-  setContatos: (contatos: Contato[]) => void;
+  setContatos: React.Dispatch<React.SetStateAction<Contato[]>>;
 }
