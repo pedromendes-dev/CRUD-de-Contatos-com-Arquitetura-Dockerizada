@@ -6,10 +6,9 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '/Contatos': {
-        target: 'https://localhost:8081',
+      '/api': {
+        target: 'http://localhost:8080',
         changeOrigin: true,
-        secure: false,
       },
     },
   },
