@@ -5,9 +5,9 @@ namespace Contatos.src.API.Services
 {
     public class ContatoService
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext _context;  //Atributo setado via injeção de dependência
 
-        public ContatoService(AppDbContext context)
+        public ContatoService(AppDbContext context)  // Contructor para injeção de dependência do context - conexão com o banco de dados
         {
             _context = context;
         }
@@ -22,6 +22,11 @@ namespace Contatos.src.API.Services
                 DataCriacao = c.DataCriacao,
                 DataAtualizacao = c.DataAtualizacao
             }).ToList();
+        }
+
+        public int GetCount() // Retorna apenas a quantidade total de contatos cadastrados
+        {
+            return _context.Contatos.Count();
         }
 
         public ContatoDto? GetById(int id)  // Pega um contato específico do banco de dados pelo ID e o transforma em um DTO para ser retornado
