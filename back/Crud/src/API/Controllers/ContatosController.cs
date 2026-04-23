@@ -8,9 +8,9 @@ namespace Contatos.src.API.Controllers
     [Route("[controller]")]
     public class ContatosController : ControllerBase
     {
-        private readonly ContatoService _contatoService;
+        private readonly ContatoService _contatoService;  //Atributo setado via injeção de dependência
 
-        public ContatosController(ContatoService contatoService)
+        public ContatosController(ContatoService contatoService)  //Constructor para injeção de dependência do ConatoService
         {
             _contatoService = contatoService;
         }
@@ -23,11 +23,18 @@ namespace Contatos.src.API.Controllers
             return Ok(contatos);
         }
 
+        [HttpGet("quantidade")] // Retorna apenas a quantidade total de contatos
+        public IActionResult GetCount()
+        {
+            var total = _contatoService.GetCount();
+            return Ok(new { total });
+        }
+
         [HttpGet("buscarPorId")]  // Buscar um contato por ID
         public IActionResult GetById(int id)
         {
             var contato = _contatoService.GetById(id);
-            if (contato == null) return NotFound();
+            if (contato == null) return NotFound($"Contato com ID {id} não encontrado.");
             return Ok(contato);
         }
 
@@ -43,7 +50,7 @@ namespace Contatos.src.API.Controllers
         public IActionResult Update(int id, ContatoDto dto)
         {
             var contato = _contatoService.GetById(id);
-            if (contato == null) return NotFound();
+            if (contato == null) return NotFound($"Não foi possível atualizar: contato com ID {id} não encontrado.");
             contato.Nome = dto.Nome;
             contato.Telefone = dto.Telefone;
             contato.DataAtualizacao = DateTime.UtcNow;
@@ -52,11 +59,11 @@ namespace Contatos.src.API.Controllers
         }
 
 
-        [HttpDelete("deletarId")]
+        [HttpDelete("deletarId")]  // Deletar um contato por ID
         public IActionResult Delete(int id)
         {
            var contato = _contatoService.GetById(id);
-           if (contato == null) return NotFound();
+              if (contato == null) return NotFound($"Não foi possível excluir: contato com ID {id} não encontrado.");
            _contatoService.Delete(id);
            return NoContent();
         }
@@ -64,3 +71,4 @@ namespace Contatos.src.API.Controllers
 }
 
 
+    
