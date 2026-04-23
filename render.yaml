@@ -1,31 +1,38 @@
-services:
-  - type: web
-    name: crud-backend
-    runtime: docker
-    dockerfilePath: ./Dockerfile.backend
-    dockerContext: .
-    envVars:
-      - key: ASPNETCORE_ENVIRONMENT
-        value: Production
-      - key: ASPNETCORE_URLS
-        value: http://+:8080
-      - key: DATABASE_URL
-        fromDatabase:
-          name: crud-postgres
-          property: connectionString
-    port: 8080
+# services:
+#   - type: web
+#     name: crud-backend
+#     runtime: docker
+#     dockerfilePath: ./Dockerfile.backend
+#     dockerContext: .
+#     envVars:
+#       - key: ASPNETCORE_ENVIRONMENT
+#         value: Production
+#       - key: ASPNETCORE_URLS
+#         value: http://+:8080
+#       - key: DATABASE_URL
+#         fromDatabase:
+#           name: crud-postgres
+#           property: connectionString
+#     port: 8080
     
-  - type: web
-    name: crud-frontend
-    runtime: docker
-    dockerfilePath: ./Dockerfile.frontend
-    dockerContext: ./Presetation/Project
-    envVars:
-      - key: VITE_API_URL
-        value: https://crud-backend.onrender.com/api
-    port: 80
+#   - type: web
+#     name: crud-frontend
+#     runtime: docker
+#     dockerfilePath: ./Dockerfile.frontend
+#     dockerContext: ./Presetation/Project
+#     envVars:
+#       - key: VITE_API_URL
+#         value: https://crud-backend.onrender.com/api
+#     port: 80
     
-  - type: web
-    name: crud-nginx
-    image: pedrom21/crud-nginx:latest
-    port: 80
+#   - type: web
+#     name: crud-nginx
+#     image: pedrom21/crud-nginx:latest
+#     port: 80
+
+
+
+#  3 services:
+# 1. crud-backend: Um serviço web que roda um backend em ASP.NET Core
+# 2. crud-frontend: Um serviço web que roda um frontend em React
+# 3. crud-nginx: Um serviço web que roda um servidor Nginx para servir o frontend

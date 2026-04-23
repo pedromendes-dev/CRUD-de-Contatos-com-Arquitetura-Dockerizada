@@ -5,15 +5,89 @@ Este repositório é um 'monorepo' contendo tanto o backend (ASP.NET Core) quant
 
 Projeto interno para gerenciamento de contatos, utilizando React no frontend, ASP.NET Core no backend e SQL Server como banco de dados, com orquestração Docker.
 
-Arquitetura:
-- Frontend (React)
-- Backend (ASP.NET Core)
+## Arquitetura do projeto
+
+Visao macro:
+
+- Frontend (React + Vite + TypeScript)
+- Backend (ASP.NET Core Web API)
 - Banco de dados (SQL Server)
-- Gateway Nginx
+- Gateway reverso (Nginx)
+
+## Arquitetura de software (implementada hoje): Monolito em Camadas (Layered/N-Tier)
+
+O backend segue uma arquitetura em camadas simples, com separacao por responsabilidade:
+
+Nome da arquitetura adotada hoje:
+
+- Monolito em Camadas (tambem chamada de Layered Architecture ou N-Tier)
+- Com organizacao modular por pastas (API, Application, Domain, Infrastructure)
+
+1. Camada de Apresentacao/API
+- Controllers HTTP (rotas, status code e contrato de entrada/saida).
+- DTOs usados para transporte de dados entre API e cliente.
+
+2. Camada de Servico (Application Service local)
+- `ContatoService` concentra os casos de uso de CRUD.
+- Faz o mapeamento entre entidade de dominio e DTO.
+- Centraliza regras operacionais (datas de criacao/atualizacao e persistencia).
+
+3. Camada de Dominio/Persistencia
+- Entidade `Contato` representa o modelo de negocio persistido.
+- `AppDbContext` (Entity Framework Core) representa a unidade de acesso ao banco.
+
+4. Infraestrutura
+- SQL Server como banco relacional.
+- Docker Compose para orquestracao local.
+- Nginx como entrypoint para frontend + proxy da API.
+
+### Fluxo de requisicao (runtime)
+
+1. Frontend chama endpoint `/api/Contatos/...`.
+2. Nginx encaminha para o backend ASP.NET Core.
+3. Controller recebe a requisicao e delega ao `ContatoService`.
+4. `ContatoService` consulta/atualiza o `AppDbContext`.
+5. EF Core persiste/lê no SQL Server.
+6. A API devolve JSON com o status HTTP apropriado.
+
+### Padrao arquitetural atual
+
+- Estilo: Monolito modular em camadas.
+- API e servico estao no mesmo processo (sem microsservicos).
+- Persistencia feita via EF Core com acesso direto por `DbContext`.
+- O repositorio ainda nao foi abstraido em interface propria.
+
+## Arquitetura de pastas
+
+```text
+.
+|-- back/
+|   `-- Crud/
+|       |-- src/
+|       |   |-- API/             # Controllers, DTOs e composicao HTTP
+|       |   |-- Application/     # Casos de uso e servicos de aplicacao
+|       |   `-- Domain/          # Entidades, contratos e regras de dominio
+|       |-- Infrastructure/
+|       |   `-- docker/          # Compose, Dockerfiles e nginx do ambiente
+|       |-- Program.cs           # Bootstrap da aplicacao backend
+|       `-- appsettings*.json    # Configuracoes por ambiente
+|-- Presetation/
+|   `-- Project/
+|       |-- src/
+|       |   |-- components/      # Componentes reutilizaveis de UI
+|       |   |-- pages/           # Paginas da aplicacao
+|       |   |-- services/axios/  # Cliente HTTP para API
+|       |   |-- hooks/           # Hooks customizados
+|       |   `-- utils/           # Tipos e utilitarios
+|       `-- package.json
+|-- Documentos/
+|   `-- sql/init.sql             # Script de inicializacao/exemplo
+`-- README.md
+```
 
 Tecnologias principais: React, TypeScript, Vite, Material UI, ASP.NET Core, Entity Framework Core, Docker, Nginx, SQL Server.
 
-Estrutura do repositório:
+Estrutura do repositório (resumo):
 - back/Crud: backend
 - back/Crud/Infrastructure/docker: infraestrutura Docker
 - back/Crud/Infrastructure/docker/nginx/nginx.conf: configuração do Nginx
@@ -40,6 +114,12 @@ Passos:
 3. Verifique status:
 
 	docker compose ps
+
+Atalho mental no Docker Desktop:
+
+- `Start`: so sobe os containers
+- `Build`: recria as imagens
+- `Compose up --build`: builda e sobe
 
 ## Enderecos da aplicacao
 
