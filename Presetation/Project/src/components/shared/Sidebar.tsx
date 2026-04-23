@@ -88,7 +88,6 @@ export const Sidebar: React.FC<{ open?: boolean; onToggle?: () => void }> = ({ o
           return (
           <React.Fragment key={item.text}>
             <ListItem
-              button
               component={Link}
               to={item.path}
               sx={{
