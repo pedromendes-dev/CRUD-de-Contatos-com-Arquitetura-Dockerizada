@@ -22,6 +22,7 @@ import { useContatoEvents } from '../../hooks/contato/useContatoEvents';
 import { ContatoEventType } from '../../utils/contato/contatoEvents';
 import { ContatosTableProps } from '../../utils/contato/contatoTypes';
 
+const CONTACT_COUNT_CACHE_KEY = 'contatos-count-cache';
 
 export const ContatosTable: React.FC<ContatosTableProps> = ({ contatos, setContatos }: ContatosTableProps) => {
   const { dispatchContatoEvent } = useContatoEvents();
@@ -62,19 +63,35 @@ export const ContatosTable: React.FC<ContatosTableProps> = ({ contatos, setConta
           id: editing.id,
           payload: { nome, telefone },
         });
+
+        setContatos((current: Contato[]) =>
+          current.map((contato: Contato) =>
+            contato.id === editing.id
+              ? {
+                  ...contato,
+                  nome,
+                  telefone,
+                  dataAtualizacao: new Date().toISOString(),
+                }
+              : contato,
+          ),
+      );
       } else {
-        await dispatchContatoEvent({
+        const createdContato = (await dispatchContatoEvent({
           type: ContatoEventType.CRIAR,
           payload: {
             nome,
             telefone,
             email: undefined,
           },
-        });
+        })) as Contato;
+
+        if (createdContato) {
+          setContatos((current: Contato[]) => [...current, createdContato]);
+        }
       }
 
-      const data = (await dispatchContatoEvent({ type: ContatoEventType.LISTAR })) as Contato[];
-      setContatos(data ?? []);
+      sessionStorage.removeItem(CONTACT_COUNT_CACHE_KEY);
       setOpen(false);
     } catch (error) {
       console.error('Erro ao salvar contato:', error);
@@ -86,8 +103,8 @@ export const ContatosTable: React.FC<ContatosTableProps> = ({ contatos, setConta
   const handleDelete = async (contato: Contato) => {
     try {
       await dispatchContatoEvent({ type: ContatoEventType.REMOVER, id: contato.id });
-      const data = (await dispatchContatoEvent({ type: ContatoEventType.LISTAR })) as Contato[];
-      setContatos(data ?? []);
+      setContatos((current: Contato[]) => current.filter((item: Contato) => item.id !== contato.id));
+      sessionStorage.removeItem(CONTACT_COUNT_CACHE_KEY);
     } catch (error) {
       console.error('Erro ao remover contato:', error);
     }
