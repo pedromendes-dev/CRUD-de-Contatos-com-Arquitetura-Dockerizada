@@ -24,7 +24,7 @@ services:
   backend:
     build:
       context: ../..
-      dockerfile: Infrastructure/docker/backend/Dockerfile
+      dockerfile: Infrastructure/docker/backend/Dockerfile.backend
     container_name: contatos_backend
     environment:
       ASPNETCORE_ENVIRONMENT: Docker
@@ -40,7 +40,7 @@ services:
   frontend:
     build:
       context: ../../../../Presetation/Project
-      dockerfile: Dockerfile
+      dockerfile: ../../back/Crud/Infrastructure/docker/frontend/Dockerfile
       args:
         VITE_API_URL: /api
     container_name: contatos_frontend
