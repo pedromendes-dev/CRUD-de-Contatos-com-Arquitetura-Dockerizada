@@ -2,9 +2,10 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Box, CircularProgress } from '@mui/material';
 
-// Lazy loading das páginas para otimizar o carregamento inicial da aplicação - Carrega as pag só quando o usuário navega para elas
+// Lazy loading das páginas para otimizar o carregamento inicial da aplicação - Carrega as pag só quando o usuário navega para elas, evitanto carregar código desnecessário no início.  
 const HomePage = lazy(() => import('../../pages/HomePage'));
 const ContatosPage = lazy(() => import('../../pages/ContatosPage'));
+const NotFoundPage = lazy(() => import('../../pages/NotFoundPage'));
 
 const loadingFallback = (
   <Box
@@ -38,6 +39,11 @@ const AppRoutes: React.FC = () => {
           <Route
             path="/contatos"
             element={<ContatosPage />}
+          />
+
+          <Route
+            path="*"
+            element={<NotFoundPage />}
           />
         </Routes>
       </Suspense>
