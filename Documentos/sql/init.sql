@@ -13,21 +13,21 @@ CREATE TABLE [ContatosDB].[dbo].[contato] (
 -- Inserir dados de exemplo na tabela contato
 INSERT INTO [ContatosDB].[dbo].[contato] (Nome, Telefone) 
 VALUES 
-('João Silva', '(11) 99999-0000'),
-('Maria Souza', '(21) 98888-2222'),
-('Carlos Pereira', '(31) 97777-3333'),
-('Ana Oliveira', '(41) 96666-4444'),
-('Pedro Santos', '(51) 95555-5555'),
-('Fernanda Lima', '(61) 94444-6666'),
-('Ricardo Almeida', '(71) 93333-7777'),
-('Patrícia Costa', '(81) 92222-8888'),
-('Luís Fernandes', '(91) 91111-9999'),
-('Beatriz Martins', '(85) 90000-1111'),
-('Gabriel Rocha', '(62) 98877-2222'),
-('Camila Ribeiro', '(63) 97766-3333'),
-('André Carvalho', '(64) 96655-4444'),
-('Juliana Melo', '(65) 95544-5555'),
-('Marcelo Azevedo', '(66) 94433-6666');
+
+    ('João Silva', '(11) 99999-0000', 'joao@email.com'),
+    ('Maria Souza', '(21) 98888-2222', 'maria@email.com'),
+    ('Carlos Pereira', '(31) 97777-3333', 'carlos@email.com'),
+    ('Ana Oliveira', '(41) 96666-4444', 'ana@email.com'),
+    ('Pedro Santos', '(51) 95555-5555', 'pedro@email.com'),
+    ('Fernanda Lima', '(61) 94444-6666', 'fernanda@email.com'),
+    ('Ricardo Almeida', '(71) 93333-7777', 'ricardo@email.com'),
+    ('Patrícia Costa', '(81) 92222-8888', 'patricia@email.com'),
+    ('Luís Fernandes', '(91) 91111-9999', 'luis@email.com'),
+    ('Beatriz Martins', '(85) 90000-1111', 'beatriz@email.com'),
+    ('Gabriel Rocha', '(62) 98877-2222', 'gabriel@email.com'),
+    ('Camila Ribeiro', '(63) 97766-3333', 'camila@email.com'),
+    ('André Carvalho', '(64) 96655-4444', 'andre@email.com'),
+    ('Juliana Melo', '(65) 95544-5555', 'juliana@email.com');
 
 
 -- consultar os dados inseridos
