@@ -1,0 +1,1 @@
+export { useContatoEvents } from './useContatoEvents';

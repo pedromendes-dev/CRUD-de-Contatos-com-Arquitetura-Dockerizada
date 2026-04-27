@@ -14,9 +14,3 @@ export type CreateContatoPayload = {
 };
 
 export type UpdateContatoPayload = Partial<CreateContatoPayload>;
-
-
-export interface ContatosTableProps {
-  contatos: Contato[];
-  setContatos: React.Dispatch<React.SetStateAction<Contato[]>>;
-}
