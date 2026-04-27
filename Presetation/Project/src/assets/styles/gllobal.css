@@ -1,3 +1,4 @@
+/* ── Reset básico ──────────────────────────────────────────────────────────── */
 * {
   margin: 0;
   padding: 0;
@@ -11,6 +12,54 @@ body,
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f2f5f9;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--color-background);
 }
+
+/* ── Design tokens (Figma — SmartReg) ─────────────────────────────────────── */
+:root {
+  /* Cores principais */
+  --color-primary:           #030213;
+  --color-primary-fg:        #ffffff;
+  --color-background:        #ffffff;
+  --color-foreground:        #030213;
+
+  /* Superfícies */
+  --color-card:              #ffffff;
+  --color-card-fg:           #030213;
+  --color-muted:             #ececf0;
+  --color-muted-fg:          #717182;
+  --color-accent:            #e9ebef;
+  --color-accent-fg:         #030213;
+
+  /* Estado */
+  --color-destructive:       #d4183d;
+  --color-destructive-fg:    #ffffff;
+
+  /* Bordas e inputs */
+  --color-border:            rgba(0, 0, 0, 0.10);
+  --color-input-bg:          #f3f3f5;
+
+  /* Marca — cor do logo SmartReg */
+  --color-brand:             #2563eb;
+
+  /* Raios de borda (alinhados ao Figma) */
+  --radius-sm:               0.375rem;   /* 6px  */
+  --radius-md:               0.5rem;     /* 8px  */
+  --radius-lg:               0.625rem;   /* 10px */
+  --radius-xl:               1rem;       /* 16px */
+  --radius-full:             9999px;
+
+  /* Sidebar */
+  --color-sidebar-bg:        #030213;
+  --color-sidebar-fg:        #ffffff;
+  --color-sidebar-accent:    rgba(255, 255, 255, 0.12);
+}
+
+/* ── Scrollbar personalizada ───────────────────────────────────────────────── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #bdbdbd #f3f4f6;
+}
+*::-webkit-scrollbar        { width: 8px; height: 8px; background: #f3f4f6; }
+*::-webkit-scrollbar-thumb  { background: #bdbdbd; border-radius: 8px; min-height: 24px; }

@@ -1,2 +1,10 @@
 export * from './button';
 export { default as Button } from './button';
+export * from './text-field';
+export { default as TextField } from './text-field';
+export * from './select';
+export { default as Select } from './select';
+export * from './paper';
+export { default as Paper } from './paper';
+export * from './alert';
+export { default as Alert } from './alert';
