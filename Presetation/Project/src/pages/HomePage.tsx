@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Container, Typography, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { getContatosCount } from '../services/axios/contatosAxios';
+import { Logo } from '../components/shared/Logo';
 
 const contatosCountCacheKey = 'contatos-count-cache';
 const contatosCountCacheTtlMs = 5 * 60 * 1000;
 
 export const HomePage: React.FC = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate();  //  useNavigate serve para mudar de página via código, sem recarregar o site.
   const [contatosCount, setContatosCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [showCount, setShowCount] = useState(false);
@@ -58,7 +59,7 @@ export const HomePage: React.FC = () => {
 
   useEffect(() => {
     if (!loading) {
-      const timer = setTimeout(() => setShowCount(true), 1500); // 1.5s de delay
+      const timer = setTimeout(() => setShowCount(true), 1000); // Pequeno delay para evitar mostrar o número antes de atualizar o estado, melhorando a UX
       return () => clearTimeout(timer);
     } else {
       setShowCount(false);
@@ -106,6 +107,10 @@ export const HomePage: React.FC = () => {
             boxShadow: '0 18px 45px rgba(15, 23, 42, 0.12)',
           }}
         >
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2.5 }}>
+            <Logo size={52} showText variant="dark" />
+          </Box>
+
           <Typography
             variant="overline"
             sx={{ letterSpacing: 3, color: 'primary.main', fontWeight: 700, fontSize: 14, mb: 1 }}

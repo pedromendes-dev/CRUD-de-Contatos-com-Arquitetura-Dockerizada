@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Api/">
+    <Project Path="CrudContatos.Api/CrudContatos.Api.csproj" Id="85945a12-83c2-42f4-998d-9d2a72725b39" />
+  </Folder>
+  <Folder Name="/Core/">
+    <Project Path="CrudContatos.Core/CrudContatos.Core.csproj" Id="a235033d-009a-45fc-b6fe-faccbacd215e" />
+  </Folder>
+  <Folder Name="/Domain/">
+    <Project Path="CrudContatos.Domain.Entity/CrudContatos.Domain.Entity.csproj" Id="0014a6f4-f149-43b4-a509-4df383abf1a8" />
+    <Project Path="CrudContatos.Domain.Service/CrudContatos.Domain.Service.csproj" Id="5706b825-95e6-482a-be1a-47769929c32b" />
+  </Folder>
+  <Folder Name="/Infra/">
+    <Project Path="CrudContatos.Infra.Data/CrudContatos.Infra.Data.csproj" Id="5ac5ef6d-da0d-4f4c-bde7-84617beda708" />
+  </Folder>
+</Solution>

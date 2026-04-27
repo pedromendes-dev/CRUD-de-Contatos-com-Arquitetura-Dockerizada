@@ -1,0 +1,28 @@
+# ─── STAGE 1: BUILD ──────────────────────────────────────────────────────────
+# Usa a imagem do SDK (compilador + ferramentas) para compilar o projeto.
+# O SDK é maior; por isso usamos multi-stage: ele nao vai para a imagem final.
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS builder
+
+WORKDIR /src
+
+# Copia só o .csproj primeiro para aproveitar o cache do Docker:
+# se as dependencias nao mudaram, o 'dotnet restore' nao roda de novo.
+COPY CrudContatos.Api.csproj ./
+RUN dotnet restore "CrudContatos.Api.csproj"
+
+# Copia o restante do codigo e compila em modo Release.
+COPY . .
+RUN dotnet build "CrudContatos.Api.csproj" -c Release -o /app/build
+
+# ─── STAGE 2: RUNTIME ────────────────────────────────────────────────────────
+# Usa apenas o runtime (imagem menor, sem SDK), copiando so o que foi compilado.
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
+
+WORKDIR /app
+
+# Copia os artefatos compilados do stage anterior.
+COPY --from=builder /app/build .
+
+EXPOSE 8080
+
+ENTRYPOINT ["dotnet", "CrudContatos.Api.dll"]

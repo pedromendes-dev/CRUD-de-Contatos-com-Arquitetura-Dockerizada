@@ -1,0 +1,54 @@
+name: Crud_contatos
+
+# Orquestra os 3 containers da aplicação: backend, frontend e nginx (proxy reverso).
+# O banco de dados NÃO está em container — usa o SQL Server local da máquina host.
+# Para subir tudo: docker-compose up --build
+# Para parar: docker-compose down
+
+services:
+
+  backend:
+    build:
+      context: ../..                                         # raiz da solution .NET (Server/)
+      dockerfile: CrudContatos.Api/Dockerfile
+    container_name: contatos_backend
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker                          # carrega appsettings.Docker.json
+      ASPNETCORE_URLS: http://+:8080                         # escuta em todas as interfaces na porta 8080
+    extra_hosts:
+      - "host.docker.internal:host-gateway"                  # permite que o container acesse o SQL Server da máquina host
+    ports:
+      - "8080:8080"                                          # acesso direto ao backend (dev/debug)
+    networks:
+      - contatos_network
+
+  frontend:
+    build:
+      context: ../../../Presetation/Project                   # raiz do projeto React
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: /api                                   # prefixo das chamadas de API no frontend
+    container_name: contatos_frontend
+    ports:
+      - "3000:80"                                            # acesso direto ao frontend (dev/debug)
+    depends_on:
+      - backend                                              # garante que o backend sobe antes
+    networks:
+      - contatos_network
+
+  nginx:
+    image: nginx:alpine
+    container_name: contatos_nginx
+    ports:
+      - "8082:80"                                            # ponto de entrada único da aplicação
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro          # monta a config sem precisar buildar imagem
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - contatos_network
+
+networks:
+  contatos_network:
+    driver: bridge                                           # rede isolada para comunicação entre os containers

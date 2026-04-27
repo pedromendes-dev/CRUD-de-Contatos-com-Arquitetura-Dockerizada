@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Container, Paper, Typography } from '@mui/material';
 import { ContatosTable } from '../components/contato/ContatosTable';
 import { useContatoEvents } from '../hooks/contato/useContatoEvents';
-import { ContatoEventType } from '../utils/contato/contatoEvents';
-import { Contato } from '../utils/contato/contatoTypes';
+import { ContatoEventType } from '../utils/types/contatoEventTypes';
+import { Contato } from '../utils/types/contatoTypes';
 import { Sidebar } from '../components/shared';
 import { Box } from '@mui/material';
 
