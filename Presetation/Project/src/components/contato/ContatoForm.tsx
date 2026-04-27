@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Stack, TextField } from '@mui/material';
-import { useContatoEvents } from '../../hooks/contato/useContatoEvents';
-import { ContatoEventType } from '../../utils/contato/contatoEvents';
+import { useContatoEvents } from '../../hooks/contato/useContatoTypes';
+import { ContatoEventType } from '../../utils/types/contatoEventTypes';
 
 interface ContatoFormProps {
   onSuccess?: () => void;
