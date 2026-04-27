@@ -1,10 +1,11 @@
 import React from 'react';
-import { Box, List, ListItem, ListItemIcon, ListItemText, Divider, IconButton, Typography } from '@mui/material';
+import { Box, List, ListItem, ListItemIcon, ListItemText, Divider, IconButton } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link, useLocation } from 'react-router-dom';
+import { Logo } from './Logo';
 
 const menuItems = [
   { text: 'Início', icon: <HomeIcon />, path: '/home' },
@@ -13,7 +14,7 @@ const menuItems = [
 
 export const Sidebar: React.FC<{ open?: boolean; onToggle?: () => void }> = ({ open = true, onToggle }) => {
   const location = useLocation();
-
+  
   if (!open) {
     return (
       <IconButton
@@ -68,14 +69,7 @@ export const Sidebar: React.FC<{ open?: boolean; onToggle?: () => void }> = ({ o
           justifyContent: 'space-between',
         }}
       >
-        <Box sx={{ textAlign: 'left' }}>
-          <Typography variant="overline" sx={{ opacity: 0.8, letterSpacing: 2 }}>
-            Sistema de
-          </Typography>
-          <Typography variant="subtitle1" sx={{ fontWeight: 600, lineHeight: 1.2 }}>
-            Contatos
-          </Typography>
-        </Box>
+        <Logo size={36} showText variant="white" />
         <IconButton onClick={onToggle} sx={{ color: 'primary.contrastText', ml: 1 }} size="small" aria-label="Fechar menu">
           <ChevronLeftIcon fontSize="medium" />
         </IconButton>
