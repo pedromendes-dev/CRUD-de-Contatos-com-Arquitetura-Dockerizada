@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CrudContatos.Core\CrudContatos.Core.csproj" />
+    <ProjectReference Include="..\CrudContatos.Domain.Entity\CrudContatos.Domain.Entity.csproj" />
+    <ProjectReference Include="..\CrudContatos.Infra.Data\CrudContatos.Infra.Data.csproj" />
+  </ItemGroup>
+
+</Project>
