@@ -1,20 +1,11 @@
-import React, { useState } from 'react';
-import { Button, Stack, TextField } from '@mui/material';
-import { useContatoEvents } from '../../hooks/contato/useContatoTypes';
-import { ContatoEventType } from '../../utils/types/contatoEventTypes';
-
-interface ContatoFormProps {
-  onSuccess?: () => void;
-}
-
-interface FormState {
-  nome: string;
-  email: string;
-  telefone: string;
-}
+import React, { useState } from "react";
+import { Button, Stack, TextField } from "@mui/material";
+import { useContatoEvents } from "../../hooks/contato/useContatoTypes";
+import { ContatoEventType } from "../../utils/types/contatoEventTypes";
+import { ContatoFormProps, FormState } from "../../utils/types/contatoFormTypes";
 
 export const ContatoForm: React.FC<ContatoFormProps> = ({ onSuccess }) => {
-  const [form, setForm] = useState<FormState>({ nome: '', email: '', telefone: '' });
+  const [form, setForm] = useState<FormState>({ nome: "", email: "", telefone: "" });
   const [loading, setLoading] = useState(false);
   const { dispatchContatoEvent } = useContatoEvents();
 
@@ -35,7 +26,7 @@ export const ContatoForm: React.FC<ContatoFormProps> = ({ onSuccess }) => {
         },
       });
 
-      setForm({ nome: '', email: '', telefone: '' });
+      setForm({ nome: "", email: "", telefone: "" });
       onSuccess?.();
     } finally {
       setLoading(false);
@@ -45,13 +36,7 @@ export const ContatoForm: React.FC<ContatoFormProps> = ({ onSuccess }) => {
   return (
     <form onSubmit={handleSubmit}>
       <Stack spacing={2} sx={{ p: 2 }}>
-        <TextField
-          label="Nome"
-          name="nome"
-          value={form.nome}
-          onChange={handleChange}
-          required
-        />
+        <TextField label="Nome" name="nome" value={form.nome} onChange={handleChange} required />
         <TextField
           label="Email"
           name="email"
@@ -67,7 +52,7 @@ export const ContatoForm: React.FC<ContatoFormProps> = ({ onSuccess }) => {
           required
         />
         <Button type="submit" variant="contained" disabled={loading}>
-          {loading ? 'Salvando...' : 'Salvar Contato'}
+          {loading ? "Salvando..." : "Salvar Contato"}
         </Button>
       </Stack>
     </form>

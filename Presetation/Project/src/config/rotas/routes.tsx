@@ -1,50 +1,78 @@
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Box, CircularProgress } from '@mui/material';
+import React, { Suspense, lazy } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
+import ProtectedRoute from "../../components/shared/ProtectedRoute";
+import { useAuth } from "../../context/AuthContext";
 
-// Lazy loading das páginas para otimizar o carregamento inicial da aplicação - Carrega as pag só quando o usuário navega para elas, evitanto carregar código desnecessário no início.  
-const HomePage = lazy(() => import('../../pages/HomePage'));
-const ContatosPage = lazy(() => import('../../pages/ContatosPage'));
-const NotFoundPage = lazy(() => import('../../pages/NotFoundPage'));
+const LoginPage     = lazy(() => import("../../Pages/PageContatos/LoginPage"));
+const HomePage      = lazy(() => import("../../Pages/PageContatos/HomePage"));
+const ContatosPage  = lazy(() => import("../../Pages/PageContatos/ContatosPage"));
+const AnalyticsPage = lazy(() => import("../../Pages/PageContatos/AnalyticsPage"));
+const NotFoundPage  = lazy(() => import("../../Pages/PageContatos/NotFoundPage"));
 
-const loadingFallback = (
-  <Box
-    sx={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: '#f5f7fa',
+const loadingFallback = (   // Fallback genérico para carregamento de páginas.
+  <div
+    style={{
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "#f5f7fa",
     }}
   >
     <CircularProgress />
-  </Box>
+  </div>
 );
 
 const AppRoutes: React.FC = () => {
+  const { isAuthenticated, isLoading } = useAuth();
+
   return (
     <BrowserRouter>
       <Suspense fallback={loadingFallback}>
         <Routes>
+          {/* Rota raiz: login é a página padrão */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+
+          {/* Rota pública: se já autenticado vai direto para /home */}
           <Route
-            path="/"
-            element={<Navigate to="/home" replace />}
+            path="/login"
+            element={
+              isLoading    ? loadingFallback :
+              isAuthenticated ? <Navigate to="/home" replace /> :
+              <LoginPage />
+            }
           />
 
+          {/* Rotas protegidas — exigem JWT válido */}
           <Route
             path="/home"
-            element={<HomePage />}
+            element={
+              <ProtectedRoute>
+                <HomePage />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="/contatos"
-            element={<ContatosPage />}
+            element={
+              <ProtectedRoute>
+                <ContatosPage />
+              </ProtectedRoute>
+            }
           />
 
           <Route
-            path="*"
-            element={<NotFoundPage />}
+            path="/analytics"
+            element={
+              <ProtectedRoute>
+                <AnalyticsPage />
+              </ProtectedRoute>
+            }
           />
+
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

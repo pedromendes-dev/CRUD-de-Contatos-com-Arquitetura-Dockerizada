@@ -8,7 +8,7 @@ public class ContatoConfiguration : IEntityTypeConfiguration<Contato>
 {
     public void Configure(EntityTypeBuilder<Contato> builder)
     {
-        builder.ToTable("Contato");
+              builder.ToTable("contato", "finance"); // Especifica o nome da tabela e o esquema
 
         builder.HasKey(x => x.Id);
 

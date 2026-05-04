@@ -1,14 +1,14 @@
-import React from 'react';
-import { Contato } from './contatoTypes';
+import React from "react";
+import { Contato } from "./contatoTypes";
 
 export type ContatoFilterField =
-  | 'todos'
-  | 'id'
-  | 'nome'
-  | 'telefone'
-  | 'email'
-  | 'dataCriacao'
-  | 'dataAtualizacao';
+  | "todos"
+  | "id"
+  | "nome"
+  | "telefone"
+  | "email"
+  | "dataCriacao"
+  | "dataAtualizacao";
 
 export interface ContatosTableProps {
   contatos: Contato[];
@@ -34,6 +34,6 @@ export type FilterConfig = {
 export type FilterStatus = {
   processing: boolean;
   error: string;
-  idSearchResult: Contato | 'not-found' | null;
+  idSearchResult: Contato | "not-found" | null;
   idSearchLoading: boolean;
 };
