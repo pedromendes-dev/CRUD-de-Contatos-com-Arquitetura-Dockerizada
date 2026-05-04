@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- BCrypt.Net-Next — hashing de senhas para o AuthService -->
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CrudContatos.Core\CrudContatos.Core.csproj" />
     <ProjectReference Include="..\CrudContatos.Domain.Entity\CrudContatos.Domain.Entity.csproj" />
     <ProjectReference Include="..\CrudContatos.Infra.Data\CrudContatos.Infra.Data.csproj" />

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Select as MuiSelect } from '@mui/material';
+import * as React from "react";
+import { Select as MuiSelect } from "@mui/material";
 
 export type SelectProps = React.ComponentProps<typeof MuiSelect>;
 

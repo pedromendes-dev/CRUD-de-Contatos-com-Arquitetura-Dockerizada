@@ -1,4 +1,4 @@
-name: Crud_contatos
+name: SmartReg
 
 # Orquestra os 3 containers da aplicação: backend, frontend e nginx (proxy reverso).
 # O banco de dados NÃO está em container — usa o SQL Server local da máquina host.
