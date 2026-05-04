@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CrudContatos.Infra.Data.EntityConfig;
 
-public class ContatoConfiguration : IEntityTypeConfiguration<Contato>
+public class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
 {
-    public void Configure(EntityTypeBuilder<Contato> builder)
+    public void Configure(EntityTypeBuilder<Usuario> builder)
     {
-              builder.ToTable("contato", "finance"); // Especifica o nome da tabela e o esquema
+        builder.ToTable("usuario", "user"); // Especifica o nome da tabela e o esquema
 
         builder.HasKey(x => x.Id);
 
@@ -19,7 +19,7 @@ public class ContatoConfiguration : IEntityTypeConfiguration<Contato>
 
         builder.Property(x => x.Nome)
                .HasColumnType("nvarchar")
-               .HasMaxLength(200)
+               .HasMaxLength(255)
                .IsRequired();
 
         builder.Property(x => x.Telefone)
@@ -32,12 +32,17 @@ public class ContatoConfiguration : IEntityTypeConfiguration<Contato>
                .HasMaxLength(255)
                .IsRequired(false);
 
+        builder.Property(x => x.Senha)
+               .HasColumnType("nvarchar")
+               .HasMaxLength(100)
+               .IsRequired(false);
+
         builder.Property(x => x.DataCriacao)
-               .HasColumnType("datetime")
+               .HasColumnType("datetime2")
                .IsRequired(false);
 
         builder.Property(x => x.DataAtualizacao)
-               .HasColumnType("datetime")
+               .HasColumnType("datetime2")
                .IsRequired(false);
     }
 }
