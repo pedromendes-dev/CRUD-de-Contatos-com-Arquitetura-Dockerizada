@@ -1,6 +1,6 @@
 namespace CrudContatos.Core.DTOs
 {
-    public class ContatoDTO
+    public class Contato
     {
         public int Id { get; set; }
         public string? Nome { get; set; } = string.Empty;

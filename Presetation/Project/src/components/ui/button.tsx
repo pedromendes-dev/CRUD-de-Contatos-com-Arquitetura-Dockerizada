@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Button as MuiButton } from '@mui/material';
+import * as React from "react";
+import { Button as MuiButton } from "@mui/material";
 
 export type ButtonProps = React.ComponentProps<typeof MuiButton>;
 

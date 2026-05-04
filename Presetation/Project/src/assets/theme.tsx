@@ -3,13 +3,13 @@ import { ptBR } from "@mui/material/locale";
 
 // Tokens alinhados ao design system do Figma (SmartReg)
 const COLORS = {
-  primary:    '#030213',  // near-black — cor principal do Figma
-  primaryLt:  '#4b5563',
-  primaryDk:  '#000000',
-  muted:      '#717182',
-  accent:     '#e9ebef',
-  brand:      '#2563eb',  // azul do logo SmartReg
-  destructive:'#d4183d',
+  primary: "#030213", // near-black — cor principal do Figma
+  primaryLt: "#4b5563",
+  primaryDk: "#000000",
+  muted: "#717182",
+  accent: "#e9ebef",
+  brand: "#2563eb", // azul do logo SmartReg
+  destructive: "#d4183d",
 };
 
 const commonThemeOptions = {
@@ -23,7 +23,7 @@ const commonThemeOptions = {
     h6: { fontWeight: 600 },
     body1: { fontSize: 16, fontWeight: 400 },
     body2: { fontSize: 15, fontWeight: 400 },
-    button: { fontWeight: 600, textTransform: 'none' as const, fontSize: 15 },
+    button: { fontWeight: 600, textTransform: "none" as const, fontSize: 15 },
   },
   shape: {
     borderRadius: 10, // --radius-lg do Figma (0.625rem = 10px)
@@ -43,10 +43,10 @@ const commonThemeOptions = {
           minHeight: 40,
           boxShadow: "none",
           letterSpacing: 0.2,
-          transition: 'background 0.2s, color 0.2s',
-          '&:hover': {
+          transition: "background 0.2s, color 0.2s",
+          "&:hover": {
             boxShadow: "none",
-            filter: 'brightness(0.93)',
+            filter: "brightness(0.93)",
           },
         },
       },
@@ -69,7 +69,7 @@ const commonThemeOptions = {
         tooltip: {
           fontSize: 13,
           borderRadius: 8,
-          padding: '6px 12px',
+          padding: "6px 12px",
           backgroundColor: COLORS.primary,
         },
       },
@@ -78,12 +78,12 @@ const commonThemeOptions = {
       styleOverrides: {
         root: {
           borderRadius: 10,
-          transition: 'background 0.18s',
-          '&.Mui-selected, &.Mui-selected:hover': {
-            backgroundColor: 'rgba(3, 2, 19, 0.08)',
+          transition: "background 0.18s",
+          "&.Mui-selected, &.Mui-selected:hover": {
+            backgroundColor: "rgba(3, 2, 19, 0.08)",
           },
-          '&:hover': {
-            backgroundColor: 'rgba(0,0,0,0.04)',
+          "&:hover": {
+            backgroundColor: "rgba(0,0,0,0.04)",
           },
         },
       },
@@ -91,15 +91,15 @@ const commonThemeOptions = {
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          scrollbarColor: '#bdbdbd #f3f4f6',
-          '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
-            backgroundColor: '#f3f4f6',
+          scrollbarColor: "#bdbdbd #f3f4f6",
+          "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+            backgroundColor: "#f3f4f6",
             width: 8,
             height: 8,
           },
-          '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
+          "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
             borderRadius: 8,
-            backgroundColor: '#bdbdbd',
+            backgroundColor: "#bdbdbd",
             minHeight: 24,
           },
         },
@@ -121,7 +121,7 @@ const commonThemeOptions = {
       styleOverrides: {
         root: {
           borderRadius: 16,
-          boxShadow: '0 2px 16px 0 rgba(3,2,19,0.07)',
+          boxShadow: "0 2px 16px 0 rgba(3,2,19,0.07)",
         },
       },
     },
@@ -132,7 +132,7 @@ const commonThemeOptions = {
     },
     MuiDivider: {
       styleOverrides: {
-        root: { borderColor: 'rgba(0,0,0,0.08)' },
+        root: { borderColor: "rgba(0,0,0,0.08)" },
       },
     },
     MuiChip: {
@@ -149,31 +149,31 @@ export const lightTheme = createTheme(
       mode: "light",
       background: {
         default: "#f3f4f6",
-        paper:   "#ffffff",
+        paper: "#ffffff",
       },
       primary: {
-        light:        COLORS.primaryLt,
-        main:         COLORS.primary,
-        dark:         COLORS.primaryDk,
+        light: COLORS.primaryLt,
+        main: COLORS.primary,
+        dark: COLORS.primaryDk,
         contrastText: "#ffffff",
       },
       secondary: {
-        light:        "#f3e5f5",
-        main:         "#9c27b0",
-        dark:         "#6a0080",
+        light: "#f3e5f5",
+        main: "#9c27b0",
+        dark: "#6a0080",
         contrastText: "#ffffff",
       },
       error: {
         main: COLORS.destructive,
       },
       text: {
-        primary:   COLORS.primary,
+        primary: COLORS.primary,
         secondary: COLORS.muted,
       },
     },
     ...commonThemeOptions,
   },
-  ptBR
+  ptBR,
 );
 
 export const darkTheme = createTheme(
@@ -182,22 +182,22 @@ export const darkTheme = createTheme(
       mode: "dark",
       background: {
         default: "#0b1120",
-        paper:   "#111827",
+        paper: "#111827",
       },
       primary: {
-        light:        "#60a5fa",
-        main:         COLORS.brand,
-        dark:         "#1d4ed8",
+        light: "#60a5fa",
+        main: COLORS.brand,
+        dark: "#1d4ed8",
         contrastText: "#ffffff",
       },
       secondary: {
-        light:        "#c4b5fd",
-        main:         "#8b5cf6",
-        dark:         "#5b21b6",
+        light: "#c4b5fd",
+        main: "#8b5cf6",
+        dark: "#5b21b6",
         contrastText: "#ffffff",
       },
     },
     ...commonThemeOptions,
   },
-  ptBR
+  ptBR,
 );

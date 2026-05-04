@@ -1,13 +1,16 @@
-using CrudContatos.Core.DTOs;
-using CrudContatos.Domain.Service;
+using CrudContatos.Domain.Entity;
+using CrudContatos.Domain.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CrudContatos.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]  // nginx remove o nome do controller da rota, então as rotas ficam mais limpas
-public class ContatosController(ContatoService contatoService) : ControllerBase
+[Authorize] // Todos os endpoints de contatos exigem JWT válido no header Authorization: Bearer <token>
+public class ContatosController(IContatoService contatoService) : ControllerBase
 {
+    [Authorize]
     [HttpGet("BuscarTodos")]
     public IActionResult BuscarTodos()
     {
@@ -15,6 +18,7 @@ public class ContatosController(ContatoService contatoService) : ControllerBase
         return Ok(contatos);
     }
 
+    [Authorize]
     [HttpGet("ObterQuantidade")]
     public IActionResult ObterQuantidade()
     {
@@ -22,6 +26,7 @@ public class ContatosController(ContatoService contatoService) : ControllerBase
         return Ok(new { total });
     }
 
+    [Authorize]
     [HttpGet("BuscarPorId")]
     public IActionResult BuscarPorId(int id)
     {
@@ -30,23 +35,26 @@ public class ContatosController(ContatoService contatoService) : ControllerBase
         return Ok(contato);
     }
 
+    [Authorize]
     [HttpPost("CriarNovo")]
-    public IActionResult CriarNovo(ContatoDTO dto)
+    public IActionResult CriarNovo(Contato contato)
     {
-        contatoService.Adicionar(dto);
-        return CreatedAtAction(nameof(BuscarPorId), new { id = dto.Id }, dto);
+        contatoService.Adicionar(contato);
+        return CreatedAtAction(nameof(BuscarPorId), new { id = contato.Id }, contato);
     }
 
+    [Authorize]
     [HttpPut("AtualizarId")]
-    public IActionResult AtualizarId(int id, ContatoDTO dto)
+    public IActionResult AtualizarId(int id, Contato contato)
     {
         var existente = contatoService.BuscarPorId(id);
         if (existente == null) return NotFound($"Não foi possível atualizar: contato com ID {id} não encontrado.");
-        dto.Id = id;
-        contatoService.AtualizarPorId(dto);
+        contato.Id = id;
+        contatoService.AtualizarPorId(contato);
         return NoContent();
     }
 
+    [Authorize]
     [HttpDelete("DeletarId")]
     public IActionResult DeletarId(int id)
     {

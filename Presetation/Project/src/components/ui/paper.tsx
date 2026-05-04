@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Paper as MuiPaper } from '@mui/material';
+import * as React from "react";
+import { Paper as MuiPaper } from "@mui/material";
 
 export type PaperProps = React.ComponentProps<typeof MuiPaper>;
 
